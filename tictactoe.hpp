@@ -22,7 +22,9 @@ class tictactoe{
         bool gameEnded = false;
 
         // setup players
-        
+
+        // ignore this I'm having a moment remembering
+        players player1 = players("joey");
 
         while (playAgain){
             // reset all counters
