@@ -13,6 +13,35 @@ class tictactoe{
     map<int, string, greater<int>> leaderboard = {{7, "Maddy"}, {6, "Zac"}, {99, "Bingo"}, {80, "Wahoooo"}};
 
     public:
+    void mainMenu(){
+
+    }
+
+    string printMenu(){
+        cout << "Please type the option you would like from the options below:\n";
+        cout << "    Play\n    Leaderboard\n    Close\n";
+
+        string choice;
+        cin >> choice;
+
+        bool correct = false;
+        if (choice == "Play" || choice == "Leaderboard" || choice == "Close"){
+            correct = true;
+        }
+
+        while (correct == false){
+            cout << "Try again!\n\n";
+            cout << "Please type the option you would like from the options below:\n";
+            cout << "    Play\n    Leaderboard\n    Close\n";
+            cin >> choice;
+            if (choice == "Play" || choice == "Leaderboard" || choice == "Close"){
+                correct = true;
+            }
+        }
+
+        return choice;
+    }
+
     void printBoard(){
         cout << "   a     b     c\n";
         cout << "      |     |\n";

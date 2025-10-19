@@ -6,7 +6,7 @@ int main(){
     tictactoe a;
 
     a.printBoard();
-    cout << a.checkWinCon() << "\n";
+    cout << a.printMenu() << "\n";
 
     return 0;
 }

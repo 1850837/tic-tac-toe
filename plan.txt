@@ -23,7 +23,7 @@ it will for one of them), and then return them to the main menu.
 
 ---
 
-main()
+mainMenu()
 PrintMenu()
 PrintBoard()
 PrintLeaderboard()
