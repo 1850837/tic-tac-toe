@@ -185,9 +185,14 @@ class tictactoe{
         while(true) {
             cout << "Select position" << endl;
             cin >> choice;
-            if (checkPosition(choice, currentPlayer) == true) {
-                return choice;
+            if(choice >= 0 && choice <= 8) {
+                if (checkPosition(choice, currentPlayer) == true) {
+                    return choice;
+                }
+            } else {
+                cout << "Invalid position (pick a number from 0-8), try again" << endl;
             }
+
         }
 
 
