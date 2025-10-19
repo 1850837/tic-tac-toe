@@ -23,10 +23,21 @@ class tictactoe{
         cout << "Please enter player 1's (x) name: ";
         string name = "";
         cin >> name;
+        while (name.size() > 16){
+            cout << "Name must be under 16 characters!\n";
+            cout << "Please enter player 1's (x) name: ";
+            cin >> name;
+        }
+
         Players player1 = Players(name);
 
         cout << "Please enter player 2's (o) name: ";
         cin >> name;
+        while (name.size() > 16){
+            cout << "Name must be under 16 characters!\n";
+            cout << "Please enter player 2's (x) name: ";
+            cin >> name;
+        }
         Players player2 = Players(name);
 
         while (playAgain){
@@ -40,6 +51,7 @@ class tictactoe{
                 // player 1's turn
                 if ((startingPlayer==false && i%2==0) || (startingPlayer && i%2==1)){
                     playerChoice(false);
+                    printBoard();
                     if (checkWinCon() != "None"){
                         break;
                     }
@@ -47,6 +59,7 @@ class tictactoe{
                 // player 2's turn
                 else {
                     playerChoice(true);
+                    printBoard();
                     if (checkWinCon() != "None"){
                         break;
                     }
@@ -70,14 +83,14 @@ class tictactoe{
             }
 
             // something here for choosing whether to play again
-            cout << "Would you like to play again? Type Yes or No:";
+            cout << "Would you like to play again? Type Yes or No: ";
             string anotherGame = "";
             cin >> anotherGame;
 
             // checking input
             while(anotherGame != "Yes" && anotherGame != "No"){
                 cout << "Invalid input.\n";
-                cout << "Would you like to play again? Type Yes or No:";
+                cout << "Would you like to play again? Type Yes or No: ";
                 cin >> anotherGame;
             }
 
@@ -171,7 +184,7 @@ class tictactoe{
 
     void printLeaderboard(){
         // delete excess elements
-        
+
 
         cout << "                    |\n";
         cout << "    player          |   score\n";
