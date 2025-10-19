@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include "players.hpp"
 using namespace std;
 
 class tictactoe{
