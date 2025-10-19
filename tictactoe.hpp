@@ -288,16 +288,15 @@ class tictactoe{
         string choice;
         int integerChoice = 0;
         while(true) {
+            int integerChoice = 0;
+            choice = "";
             cout << "Select position (Enter position by coordinate like 1a, 2b, 3c etc)" << endl;
 
             cin >> choice;
             integerChoice += ((choice[0] - '0') - 1) * 3;
-    
             if(((int)choice[1]) - 97 >= 0 && ((int)choice[1]) - 97 <= 2) {
-                integerChoice += ((int)choice[1]) - 97;
+                integerChoice += ((int)choice[1]) - 97; // (int)choice[1] gets the ascii value of a, b, c, 97 is the ascii value of 'a' (pretty sure)
             }
-            integerChoice += ((int)choice[1]) - 97; // (int)choice[1] gets the ascii value of a, b, c, 97 is the ascii value of 'a' (pretty sure)
-
             if(integerChoice >= 0 && integerChoice <= 8) {
                 if (checkPosition(integerChoice, currentPlayer) == true) {
                     return integerChoice;
