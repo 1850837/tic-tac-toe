@@ -13,6 +13,8 @@ class tictactoe{
     map<int, string, greater<int>> leaderboard = {{7, "Maddy"}, {6, "Zac"}, {99, "Bingo"}, {80, "Wahoooo"}};
 
     public:
+    
+
     void mainMenu(){
         string choice = "";
 
@@ -28,7 +30,8 @@ class tictactoe{
 
                 // something where you need to press any button to move on
                 cout << "\nPress any key to continue: ";
-                system("pause");
+                cin.get();
+                cin.get();
             }
 
             cout << "\n";
