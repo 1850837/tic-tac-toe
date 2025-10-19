@@ -14,7 +14,9 @@ class tictactoe{
     map<int, string, greater<int>> leaderboard = {{7, "Maddy"}, {6, "Zac"}, {99, "Bingo"}, {80, "Wahoooo"}};
 
     public:
-    
+    void play(){
+        
+    }
 
     void mainMenu(){
         string choice = "";
@@ -149,6 +151,7 @@ class tictactoe{
 
         return "None";
     }
+
     bool checkPosition(vector<string> board, int position, bool currentPlayer) { // Current player is either 0 or 1, 0=x, 1=o, returns false if invalid, true otherwise
         switch(currentPlayer) {
             case 0:
