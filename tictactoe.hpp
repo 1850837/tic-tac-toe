@@ -47,6 +47,7 @@ class tictactoe{
 
             // actually a for loop where there's a break if there's an early ended game makes way more sense
             // if i is even, do the starting player. if i is odd, do the other player
+            printBoard();
             for (int i = 0; i < 9; i++){
                 // player 1's turn
                 if ((startingPlayer==false && i%2==0) || (startingPlayer && i%2==1)){
