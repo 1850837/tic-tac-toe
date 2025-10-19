@@ -14,7 +14,9 @@ class tictactoe{
     map<int, string, greater<int>> leaderboard = {{7, "Maddy"}, {6, "Zac"}, {99, "Bingo"}, {80, "Wahoooo"}};
 
     public:
-    
+    void play(){
+        
+    }
 
     void mainMenu(){
         string choice = "";
