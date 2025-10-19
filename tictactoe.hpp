@@ -14,7 +14,29 @@ class tictactoe{
 
     public:
     void mainMenu(){
+        string choice = "";
 
+        while (choice != "Close"){
+            choice = printMenu();
+
+            if (choice == "Play"){
+                cout << "Not yet!\n";
+            }
+
+            if (choice == "Leaderboard"){
+                printLeaderboard();
+
+                // something where you need to press any button to move on
+                cout << "\nPress any key to continue: ";
+                system("pause");
+            }
+
+            cout << "\n";
+        }
+
+        // choice of Close
+        cout << "Bye!\n";
+        return;
     }
 
     string printMenu(){
