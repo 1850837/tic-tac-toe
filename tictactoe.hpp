@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <map>
 #include "players.hpp"
 using namespace std;
@@ -46,7 +48,14 @@ class tictactoe{
             choice = printMenu();
 
             if (choice == "Play"){
-                cout << "Not yet!\n";
+                srand(time(0));
+                int startingPlayer = rand() % 2; // Select randomly the player to go first, 0 (x) or 1 (o)
+                if(startingPlayer == 0) {
+                    cout << "x goes first!" << endl;
+                } else if (startingPlayer == 1) {
+                    cout << "o goes first!" << endl;
+                }
+                play(startingPlayer);
             }
 
             if (choice == "Leaderboard"){
@@ -220,6 +229,10 @@ class tictactoe{
 
 
 
+    }
+    bool play(bool currentPlayer) {
+        cout << "Not yet!\n";
+        return true;
     }
 
 };
