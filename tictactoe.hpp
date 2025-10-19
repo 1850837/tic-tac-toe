@@ -182,10 +182,15 @@ class tictactoe{
     }
     int playerChoice(bool currentPlayer) { // Just gives the option for a choice, no need to run printBoard() again (will all be combined in the play() function)
         int choice;
-        cout << "Select position" << endl;
-        cin >> choice;
-        checkPosition(choice, currentPlayer)
-        return choice;
+        while(true) {
+            cout << "Select position" << endl;
+            cin >> choice;
+            if (checkPosition(choice, currentPlayer) == true) {
+                return choice;
+            }
+        }
+
+
 
     }
 
