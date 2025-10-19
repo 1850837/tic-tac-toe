@@ -12,10 +12,31 @@ class tictactoe{
     private:
     vector<string> board = {"-","-","-","-","-","-","-","-","-"};
     map<int, string, greater<int>> leaderboard = {{7, "Maddy"}, {6, "Zac"}, {99, "Bingo"}, {80, "Wahoooo"}};
+    int turnCount = 0;
 
     public:
     void play(){
+        bool playAgain = true;
+        bool gameEnded = false;
+
+        // setup players
         
+
+        while (playAgain){
+            // reset all counters
+            turnCount = 1;
+            board = {"-","-","-","-","-","-","-","-","-"};
+            playAgain = false;
+            gameEnded = false;
+
+            // while through turns
+            while (gameEnded == false){
+                // let each player take their turn
+                // check between if the game has ended
+                // at the end of each turn iterate turns
+                // when turns >= 9, game end and check
+            }
+        }
     }
 
     void mainMenu(){
