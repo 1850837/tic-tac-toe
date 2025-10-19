@@ -14,32 +14,52 @@ class tictactoe{
     private:
     vector<string> board = {"-","-","-","-","-","-","-","-","-"};
     map<int, string, greater<int>> leaderboard = {{7, "Maddy"}, {6, "Zac"}, {99, "Bingo"}, {80, "Wahoooo"}};
-    int turnCount = 0;
 
     public:
-    void play(){
+    void play(bool startingPlayer){     // true = player1, false = player2
         bool playAgain = true;
         bool gameEnded = false;
 
         // setup players
+        cout << "Please enter player 1's (x) name: ";
+        string name = "";
+        cin >> name;
+        Players player1 = Players(name);
 
-        // ignore this I'm having a moment remembering
-        players player1 = players("joey");
+        cout << "Please enter player 2's (o) name: ";
+        cin >> name;
+        Players player2 = Players(name);
 
         while (playAgain){
             // reset all counters
-            turnCount = 1;
             board = {"-","-","-","-","-","-","-","-","-"};
             playAgain = false;
             gameEnded = false;
 
-            // while through turns
-            while (gameEnded == false){
-                // let each player take their turn
-                // check between if the game has ended
-                // at the end of each turn iterate turns
-                // when turns >= 9, game end and check
+            // actually a for loop where there's a break if there's an early ended game makes way more sense
+            // if i is even, do the starting player. if i is odd, do the other player
+            for (int i = 0; i < 9; i++){
+                // player 1's turn
+                if ((startingPlayer && i%2==0) || (startingPlayer == false && i%2==1)){
+                    playerChoice(true);
+                    if (checkWinCon() != "None"){
+                        break;
+                    }
+                }
+                // player 2's turn
+                else {
+                    playerChoice(false);
+                    if (checkWinCon() != "None"){
+                        break;
+                    }
+                }
             }
+
+            // something here for winning
+
+            // something here for updating win-streaks
+
+            // something here for choosing whether to play again
         }
     }
 
@@ -142,7 +162,7 @@ class tictactoe{
         for (int i = 0; i < 7; i = i+3){
             if (board[i] == board[i+1] && board[i+1] == board[i+2]){
                 if (board[i] == "x"){
-                return "Player 1";
+                    return "Player 1";
                 }
                 if (board[i] == "o"){
                     return "Player 2";
@@ -154,7 +174,7 @@ class tictactoe{
         for (int i = 0; i < 3; i++){
             if (board[i] == board[i+3] && board[i+3] == board[i+6]){
                 if (board[i] == "x"){
-                return "Player 1";
+                    return "Player 1";
                 }
                 if (board[i] == "o"){
                     return "Player 2";
@@ -232,10 +252,10 @@ class tictactoe{
 
 
     }
-    bool play(bool currentPlayer) {
-        cout << "Not yet!\n";
-        return true;
-    }
+    // bool play(bool currentPlayer) {
+    //     cout << "Not yet!\n";
+    //     return true;
+    // }
 
 };
 
