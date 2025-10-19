@@ -48,12 +48,52 @@ class tictactoe{
     }
 
     string checkWinCon(){
+        // there are 16 possible wins, 8 for each player
+
         // checking the horizontal win cons
-        
+        for (int i = 0; i < 7; i = i+3){
+            if (board[i] == board[i+1] && board[i+1] == board[i+2]){
+                if (board[i] == "x"){
+                return "Player 1";
+                }
+                if (board[i] == "o"){
+                    return "Player 2";
+                }
+            }
+        }
 
         // checking the vertical win cons
+        for (int i = 0; i < 3; i++){
+            if (board[i] == board[i+3] && board[i+3] == board[i+6]){
+                if (board[i] == "x"){
+                return "Player 1";
+                }
+                if (board[i] == "o"){
+                    return "Player 2";
+                }
+            }
+        }
 
         // checking the diagonals
+        if (board[0] == board[4] && board[4] == board[8]){
+            if (board[0] == "x"){
+                return "Player 1";
+            }
+            if (board[0] == "o"){
+                return "Player 2";
+            }
+        }
+
+        if (board[2] == board[4] && board[4] == board[6]){
+            if (board[2] == "x"){
+                return "Player 1";
+            }
+            if (board[2] == "o"){
+                return "Player 2";
+            }
+        }
+
+        return "None";
     }
 
 };
