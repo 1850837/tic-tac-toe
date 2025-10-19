@@ -13,12 +13,11 @@ using namespace std;
 class tictactoe{
     private:
     vector<string> board = {"-","-","-","-","-","-","-","-","-"};
-    map<int, string, greater<int>> leaderboard = {{7, "Maddy"}, {6, "Zac"}, {99, "Bingo"}, {80, "Wahoooo"}};
+    map<int, string, greater<int>> leaderboard = {};
 
     public:
     void play(bool startingPlayer){     // true = player1, false = player2
         bool playAgain = true;
-        bool gameEnded = false;
 
         // setup players
         cout << "Please enter player 1's (x) name: ";
@@ -34,32 +33,66 @@ class tictactoe{
             // reset all counters
             board = {"-","-","-","-","-","-","-","-","-"};
             playAgain = false;
-            gameEnded = false;
 
             // actually a for loop where there's a break if there's an early ended game makes way more sense
             // if i is even, do the starting player. if i is odd, do the other player
             for (int i = 0; i < 9; i++){
                 // player 1's turn
-                if ((startingPlayer && i%2==0) || (startingPlayer == false && i%2==1)){
-                    playerChoice(true);
+                if ((startingPlayer==false && i%2==0) || (startingPlayer && i%2==1)){
+                    playerChoice(false);
                     if (checkWinCon() != "None"){
                         break;
                     }
                 }
                 // player 2's turn
                 else {
-                    playerChoice(false);
+                    playerChoice(true);
                     if (checkWinCon() != "None"){
                         break;
                     }
                 }
             }
 
-            // something here for winning
-
-            // something here for updating win-streaks
+            // winner announcements and updating winning streaks
+            string winner = checkWinCon();
+            if (winner == "Player 1"){
+                player1.anotherWin();
+                player2.lostAGame();
+                cout << player1.getName() << " has won!\n";
+            }
+            else if (winner == "Player 2") {
+                player2.anotherWin();
+                player1.lostAGame();
+                cout << player2.getName() << " has won!\n";
+            }
+            else {
+                cout << "It's a draw!\n";
+            }
 
             // something here for choosing whether to play again
+            cout << "Would you like to play again? Type Yes or No:";
+            string anotherGame = "";
+            cin >> anotherGame;
+
+            // checking input
+            while(anotherGame != "Yes" && anotherGame != "No"){
+                cout << "Invalid input.\n";
+                cout << "Would you like to play again? Type Yes or No:";
+                cin >> anotherGame;
+            }
+
+            if (anotherGame == "Yes"){
+                playAgain = true;
+            }
+            else {
+                // update to leaderboards
+                if (player1.getConsecWins() != 0){
+                    leaderboard.insert({player1.getConsecWins(), player1.getName()});
+                }
+                if (player2.getConsecWins() != 0){
+                    leaderboard.insert({player2.getConsecWins(), player2.getName()});
+                }
+            }
         }
     }
 
@@ -137,6 +170,9 @@ class tictactoe{
     }
 
     void printLeaderboard(){
+        // delete excess elements
+        
+
         cout << "                    |\n";
         cout << "    player          |   score\n";
         cout << "____________________|____________\n";
