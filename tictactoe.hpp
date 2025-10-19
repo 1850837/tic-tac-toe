@@ -151,8 +151,7 @@ class tictactoe{
 
         return "None";
     }
-
-    bool checkPosition(vector<string> board, int position, bool currentPlayer) { // Current player is either 0 or 1, 0=x, 1=o, returns false if invalid, true otherwise
+    bool checkPosition(int position, bool currentPlayer) { // Current player is either 0 or 1, 0=x, 1=o, returns false if invalid, true otherwise
         switch(currentPlayer) {
             case 0:
                 if(board[position] == "o") {
@@ -162,7 +161,12 @@ class tictactoe{
                 if(board[position] == "x") {
                     cout << "Invalid position (you have already placed an x there, try again)" << endl;
                     return false;
+                } else {
+                    board[position] = "x";
+                    return true;
+
                 }
+                
             case 1:
                 if(board[position] == "x") {
                     cout << "Invalid position (there is already an x there, try again)" << endl;
@@ -171,9 +175,25 @@ class tictactoe{
                 if(board[position] == "o") {
                     cout << "Invalid position (you have already placed an o there, try again)" << endl;
                     return false;
+                } else {
+                    board[position] = "o";
+                    return true;
+
                 }
         }
-        return true;
+    }
+    int playerChoice(bool currentPlayer) { // Just gives the option for a choice, no need to run printBoard() again (will all be combined in the play() function)
+        int choice;
+        while(true) {
+            cout << "Select position" << endl;
+            cin >> choice;
+            if (checkPosition(choice, currentPlayer) == true) {
+                return choice;
+            }
+        }
+
+
+
     }
 
 };
