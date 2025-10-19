@@ -51,6 +51,7 @@ class tictactoe{
             for (int i = 0; i < 9; i++){
                 // player 1's turn
                 if ((startingPlayer==false && i%2==0) || (startingPlayer && i%2==1)){
+                    cout << "X's turn!" << endl;
                     playerChoice(false);
                     printBoard();
                     if (checkWinCon() != "None"){
@@ -59,6 +60,7 @@ class tictactoe{
                 }
                 // player 2's turn
                 else {
+                    cout << "O's turn!" << endl;
                     playerChoice(true);
                     printBoard();
                     if (checkWinCon() != "None"){
