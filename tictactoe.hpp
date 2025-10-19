@@ -30,8 +30,7 @@ class tictactoe{
 
                 // something where you need to press any button to move on
                 cout << "\nPress any key to continue: ";
-                cin.get();
-                cin.get();
+                while (cin.get() != '\n');
             }
 
             cout << "\n";
@@ -148,6 +147,29 @@ class tictactoe{
         }
 
         return "None";
+    }
+    bool checkPosition(vector<string> board, int position, bool currentPlayer) { // Current player is either 0 or 1, 0=x, 1=o, returns false if invalid, true otherwise
+        switch(currentPlayer) {
+            case 0:
+                if(board[position] == "o") {
+                    cout << "Invalid position (there is already an o there, try again)" << endl;
+                    return false;
+                }
+                if(board[position] == "x") {
+                    cout << "Invalid position (you have already placed an x there, try again)" << endl;
+                    return false;
+                }
+            case 1:
+                if(board[position] == "x") {
+                    cout << "Invalid position (there is already an x there, try again)" << endl;
+                    return false;
+                }
+                if(board[position] == "o") {
+                    cout << "Invalid position (you have already placed an o there, try again)" << endl;
+                    return false;
+                }
+        }
+        return true;
     }
 
 };
