@@ -235,22 +235,28 @@ class tictactoe{
         }
     }
     int playerChoice(bool currentPlayer) { // Just gives the option for a choice, no need to run printBoard() again (will all be combined in the play() function)
-        int choice;
+        string choice;
+        int integerChoice = 0;
         while(true) {
-            cout << "Select position" << endl;
+            cout << "Select position (Enter position by coordinate like 1a, 2b, 3c etc)" << endl;
+
             cin >> choice;
-            if(choice >= 0 && choice <= 8) {
-                if (checkPosition(choice, currentPlayer) == true) {
-                    return choice;
+            integerChoice += ((choice[0] - '0') - 1) * 3;
+    
+            if(((int)choice[1]) - 97 >= 0 && ((int)choice[1]) - 97 <= 2) {
+                integerChoice += ((int)choice[1]) - 97;
+            }
+            integerChoice += ((int)choice[1]) - 97; // (int)choice[1] gets the ascii value of a, b, c, 97 is the ascii value of 'a' (pretty sure)
+
+            if(integerChoice >= 0 && integerChoice <= 8) {
+                if (checkPosition(integerChoice, currentPlayer) == true) {
+                    return integerChoice;
                 }
             } else {
                 cout << "Invalid position (pick a number from 0-8), try again" << endl;
             }
 
         }
-
-
-
     }
     // bool play(bool currentPlayer) {
     //     cout << "Not yet!\n";
