@@ -1,0 +1,73 @@
+Opens with a menu:
+    Play
+    Leaderboard
+    Close
+
+Close: closes app
+
+Leaderboard: prints leaderboard, which will be a table of the top 10 players (name, number of consecutive wins). Entries will be blank if they do not exist 
+yet.
+
+Play: asks for player 1 (x) and player 2 (o)'s names. (Under 16 chars) Prints the board (with coordinates) and asks player 1 to choose. The player should input
+a coordinate. Prints the updated board. (If 3 or more turns have passed, check if a player has won). Asks player 2 for a choice. The player should input a 
+coordinate. (If 3 or more turns have passed, check if a player has won). Repeat until a player has won. Consider all options (including a draw). A turn 
+is counted when both players have put down a point.
+After the game, it should prompt the following:
+    Play again?
+    Swap players?
+    Exit?
+
+Play again should simply do the same game again. Swap players should change which player is player 1 and which is player 2 (thus affecting turn order), WITHOUT
+taking away the stored data of name and consecutive wins. Exit should save each player's name and consecutive win counter to the leaderboard (unless it's 0, which
+it will for one of them), and then return them to the main menu.
+
+---
+
+mainMenu()
+PrintMenu()
+PrintBoard()
+PrintLeaderboard()
+Play()
+    Player1Choice(char choice)
+    Player2Choice(char choice)
+    CheckWinCon()
+
+---
+
+printBoard testing:
+
+   a     b     c
+      |     |     
+1  -  |  -  |  -  
+ _____|_____|_____
+      |     |     
+2  -  |  -  |  -  
+ _____|_____|_____
+      |     |     
+3  -  |  -  |  -  
+      |     |     
+
+   a     b     c
+      |     |     
+1  x  |  o  |  x  
+ _____|_____|_____
+      |     |     
+2  o  |  x  |  x  
+ _____|_____|_____
+      |     |     
+3  o  |  x  |  o  
+      |     |     
+
+printLeaderboard testing:
+
+                    |
+    player          |   score
+____________________|____________
+                    |
+    joey            |   7
+    zoey            |   5
+    bingo           |   4
+    plinko          |   2
+    kaching         |   2
+    oh dear         |   1
+                    |
