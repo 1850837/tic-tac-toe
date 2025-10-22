@@ -31,21 +31,24 @@ Shows the
 
 Classes:
 
-Profile
+class Profile
 
     Variables:
     
     Expenses[] (Data structure holding Expense objects, likely vector (or maybe set as it's unordered)
     string name
-    int
+    int salary
+    int salaryFreq
+    
     
     
     
     Arguments:
     addProfile()
+        Adds a profile (Does not allow an already existing profile to be added)
     deleteProfile()
+        Deletes profile (denies if you're currently on the profile)
     getProfile()
-    
     
 
 
@@ -57,22 +60,36 @@ Interface
 
     Arguments:
         setActiveProfile()
+        mainMenu()
+            Shows the main menu
+        expenseMenu()
+            Shows the menu to add an expense
+        salaryMenu()
+            Shows menu to change your salary
+        analysisScreen()
+            Shows the main analysis screen
+        interestMenu()
+            Allows you to calculate interest (linear or compound)
+        
+        
         
 
 Expense
 
 Variables:
-    int cost (To be saved in days, to be calculated from weeks, years etc when it's added)
-    int name
+    int dailyCost (To be saved in days, to be calculated from weeks, years etc when it's added)
+    string name
     string[] tags
 
     
     
     
 Arguments:
-    getExpense()
-    setExpense()
-    analysisScreen()
+    getExpense(string name)
+    setExpense(int cost, string name, string[] tags)
+    getExpenseCost()
+    getExpenseTags()
+    
 
     
 
