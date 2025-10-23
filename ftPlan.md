@@ -76,24 +76,33 @@ Interface
 
 Expense
 
-Variables:
-    int dailyCost (To be saved in days, to be calculated from weeks, years etc when it's added)
-    string name
-    string[] tags
 
-    
-    
-    
-Arguments:
-    getExpense(string name)
-    setExpense(int cost, string name, string[] tags)
-    getExpenseCost()
-    getExpenseTags()
-    
-
-    
+int dailyCost;
+    The cost of the expense in days, the user should be able to type how often the payment is, and this value should be converted to per day for consistancy and stored here.
+string name;
+    The name of the expense
+vector<string> tags;
+    Users can set tags for expenses (eg, "personal", "bills", "taxes")
 
 
+Expense();
+    Empty initialiser
+Expense(int cost, string name, vector<string> tags);
+    Initialiser
+
+int getExpenseCost();
+    Returns cost of the expense with expense.getExpenseCost();
+vector<string> getExpenseTags();
+    Returns a string vector of all the tags with expense,.getExpenseTags();
+string getName();
+    Returns name with expense.getName();
+
+void setExpenseCost(int expenseCost);
+    Sets an expense cost with expense.setExpenseCost(int e) where e is the cost of the expense in days
+void setExpenseTags(vector<string> tags);
+    Sets tags with expense.setExpenseTags() where e is the cost of the expense in days (Should push back each tag to the existing tag vector, not just replace it)
+void setName(string name);
+    Sets name with expense.setName();
 
 Commands:
 
@@ -106,4 +115,3 @@ Deletes a profile (Denies if you are in the profile)
 `profile <name>`
 Switches the active profile to profile <name>
 
-`

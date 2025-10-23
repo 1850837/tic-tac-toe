@@ -19,4 +19,7 @@ class Expense {
         vector<string> getExpenseTags();
         string getName();
 
+        void setExpenseCost(int &oldCost, int expenseCost);
+        void setExpenseTags(vector<string> &oldTags, vector<string> tags);
+        void setName(string &oldName, string name);
 };

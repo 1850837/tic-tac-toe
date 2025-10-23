@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Profile.hpp"
+
 #include "Expense.hpp"
+#include "Profile.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,10 +15,12 @@ class Interface {
     
     public:
         Interface();
-        void addProfile(vector<Expense> expenses, string name, int dailySalary);
+        void addProfile(Profile p);
         void deleteProfile(string name);
         void setActiveProfile(string profileName);
-        void mainMenu();
+        Profile getActiveProfile();
+        vector<Profile> getProfiles();
+        void mainMenu(); 
         void expensesMenu(); // Set expenses here
         void analysisMenu(); 
 };

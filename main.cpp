@@ -1,11 +1,18 @@
-#include "tictactoe.hpp"
+
+#include "Interface.hpp"
+#include "Expense.hpp"
+#include "Profile.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
+
 using namespace std;
+
 
 int main(){
 
-    tictactoe a;
-
-    a.mainMenu();
+    Interface i;
+    i.mainMenu();
 
     return 0;
 }

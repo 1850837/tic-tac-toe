@@ -9,7 +9,7 @@ using namespace std;
 class Profile {
     private:
     vector<Expense> expenses;
-    string name;
+    string name; // Must be unique
     int dailySalary; // Convert to per day before adding
     
     public:

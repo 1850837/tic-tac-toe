@@ -27,3 +27,14 @@ vector<string> Expense::getExpenseTags() {
 string Expense::getName() {
     return this->name;
 }
+
+
+void Expense::setExpenseCost(int &oldCost, int expenseCost) {
+    oldCost = expenseCost;
+}
+void Expense::setExpenseTags(vector<string> &oldTags, vector<string> tags) {
+    oldTags.insert(oldTags.end(), tags.begin(), tags.end());
+}
+void Expense::setName(string &oldName, string name) {
+    oldName = name;
+}
