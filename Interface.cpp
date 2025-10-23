@@ -60,6 +60,12 @@ vector<Profile> Interface::getProfiles() {
     return this->profiles;
 }
 void Interface::mainMenu() {
+
+    // lil bit more of Maddy tinkering
+    string temp;
+    vector<string> arguments;
+    string fullArg;
+
     while(true) {
         if(profiles.size() == 0) {
             string firstProfileName;
@@ -68,22 +74,51 @@ void Interface::mainMenu() {
             Profile p({}, firstProfileName, 0);
             addProfile(p);
             cout << "Welcome " << firstProfileName << ". Type help for commands" << endl;
+            cin.ignore();
         }
-        string temp = "";
-        cout << "> ";
-        cin >> temp;
-        string command = temp;
-        stringstream ss(command);
+        // string temp = "";
+        // cout << "> ";
+        // cin >> temp;
+        // string command = temp;
+        // stringstream ss(command);
 
-        string token;
-        vector<string> arguments;
-        int _temp = 0;
-        while (ss >> token) {
-            cout << token << endl;
-            arguments.push_back(token);
-            _temp++;
-            cout << _temp << endl;
+        // string token;
+        // vector<string> arguments;
+        // int _temp = 0;
+        // while (ss >> token) {
+        //     cout << token << endl;
+        //     arguments.push_back(token);
+        //     _temp++;
+        //     cout << _temp << endl;
+        // }
+
+        // Maddy testing non-sstream option
+        cout << "> ";
+        temp = "";
+        arguments = {};
+        fullArg = "";
+        // cin.ignore();
+        getline(cin, fullArg);
+
+        // cout << "fullArg = " << fullArg << "\n";
+
+        for (int i = 0; i < fullArg.size(); i++){
+            // case where it's a letter and not the end
+            if (i != fullArg.size()-1 && fullArg[i] != ' '){
+                temp = temp + fullArg[i];
+            }
+            // case where it's a letter and it's the end
+            else if (i == fullArg.size()-1 && fullArg[i] != ' '){
+                temp = temp + fullArg[i];
+                arguments.push_back(temp);
+            }
+            // case where it's a space (end or otherwise)
+            else {
+                arguments.push_back(temp);
+                temp = "";
+            }
         }
+
         for(int i = 0; i < arguments.size(); i++) {
             cout << arguments[i] << ", " << endl;
         }
@@ -115,7 +150,7 @@ void Interface::mainMenu() {
         else {
             cout << "Invalid command, type help for commands list" << endl;
         }
-        
+
     }
     return;
 }
