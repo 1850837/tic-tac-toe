@@ -29,26 +29,29 @@ void Interface::addProfile(Profile p) {
 
 }
 
-void Interface::deleteProfile(string name) {
+bool Interface::deleteProfile(string name) {
     for(int i = 0; i < profiles.size(); i++) {
         if(profiles[i].getName() == name) {
             if(name == activeProfile.getName()) {
                 cout << "Could not delete profile " << name << ", currently active. Switch to a different profile and try again" << endl;
+                return false;
             }
             profiles.erase(profiles.begin() + i);
-            return;
+            return true;
         }
     }
     cout << "Profile " << name << " does not exist." << endl;
+    return false;
 }
 
-void Interface::setActiveProfile(string profileName) {
+bool Interface::setActiveProfile(string profileName) {
     for(int i = 0; i < profiles.size(); i++) {
         if(profiles[i].getName() == profileName) {
             activeProfile = profiles[i];
-            return;
+            return true;
         }
     } 
+    return false;
 }
 
 Profile Interface::getActiveProfile() {
@@ -61,7 +64,6 @@ vector<Profile> Interface::getProfiles() {
 }
 void Interface::mainMenu() {
 
-    // lil bit more of Maddy tinkering
     string temp;
     vector<string> arguments;
     string fullArg;
@@ -73,34 +75,16 @@ void Interface::mainMenu() {
             cin >> firstProfileName;
             Profile p({}, firstProfileName, 0);
             addProfile(p);
+            setActiveProfile(firstProfileName);
             cout << "Welcome " << firstProfileName << ". Type help for commands" << endl;
             cin.ignore();
         }
-        // string temp = "";
-        // cout << "> ";
-        // cin >> temp;
-        // string command = temp;
-        // stringstream ss(command);
 
-        // string token;
-        // vector<string> arguments;
-        // int _temp = 0;
-        // while (ss >> token) {
-        //     cout << token << endl;
-        //     arguments.push_back(token);
-        //     _temp++;
-        //     cout << _temp << endl;
-        // }
-
-        // Maddy testing non-sstream option
         cout << "> ";
         temp = "";
         arguments = {};
         fullArg = "";
-        // cin.ignore();
         getline(cin, fullArg);
-
-        // cout << "fullArg = " << fullArg << "\n";
 
         for (int i = 0; i < fullArg.size(); i++){
             // case where it's a letter and not the end
@@ -119,11 +103,9 @@ void Interface::mainMenu() {
             }
         }
 
-        for(int i = 0; i < arguments.size(); i++) {
-            cout << arguments[i] << ", " << endl;
-        }
+        // profile add <profile name>
         if (arguments[0] == "profile" && arguments[1] == "add") {
-            if(arguments.size() < 2) {
+            if(arguments.size() <= 2) {
                 cout << "Please provide a name for the new profile (profile add <profile name>)" << endl;
             } else {
                 string newProfileName;
@@ -134,7 +116,47 @@ void Interface::mainMenu() {
                 addProfile(p);
                 cout << "Added profile " << newProfileName << " successfully." << endl;
             }
-        } else if(arguments[0] == "help") {
+        } 
+        // profile delete <profile name>
+        else if (arguments[0] == "profile" && arguments[1] == "delete"){
+            if (arguments.size() <= 2){
+                cout << "Please provide a name for the profile to delete (profile delete <profile name>)" << endl;
+            } else {
+                string newProfileName;
+                for(int i = 2; i < arguments.size(); i++) {
+                    newProfileName += arguments[i];
+                }
+                bool check = deleteProfile(newProfileName);
+                if (check == true){
+                    cout << "Deleted profile " << newProfileName << " successfully." << endl;
+                }
+            }
+        } 
+        // profile <profile name>
+        else if (arguments[0] == "profile"){
+            if (arguments.size() <= 1){
+                cout << "Please provide a name for the profile to switch to (profile <profile name>)" << endl;
+            } else {
+                string newProfileName;
+                for(int i = 1; i < arguments.size(); i++) {
+                    newProfileName += arguments[i];
+                }
+                // check if it's the current profile
+                if (newProfileName == getActiveProfile().getName()){
+                    cout << "Already using this profile!\n";
+                }
+                else {
+                    bool check = setActiveProfile(newProfileName);
+                    if (check){
+                        cout << "Switched to profile " << newProfileName << " successfully." << endl;
+                    } else {
+                        cout << "Not an existing profile!\n";
+                    }
+                }
+            }
+        } 
+        // help
+        else if(arguments[0] == "help") {
             cout << "    profile" << endl;
             cout << "        profile <profile name>               [switch to existing profile]" << endl;
             cout << "        profile add <profile name>           [adds a profile]" << endl;
@@ -143,10 +165,13 @@ void Interface::mainMenu() {
             cout << "    misc" << endl;
             cout << "        help        [displays this message]" << endl;
             cout << "        quit        [quits application]" << endl;
-        } else if(arguments[0] == "quit") {
+        } 
+        // quit
+        else if(arguments[0] == "quit") {
             cout << "Goodbye" << endl;
             break;
         }
+        // anything else
         else {
             cout << "Invalid command, type help for commands list" << endl;
         }
