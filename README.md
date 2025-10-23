@@ -1,1 +1,3 @@
-# tic-tac-toe
+# ftTracker 
+
+Run the program with `g++ main.cpp Interface.cpp Expense.cpp Profile.cpp -o ftTracker` and then run `./ftTracker`
