@@ -16,10 +16,12 @@ class Interface {
     public:
         Interface();
         void addProfile(Profile p);
-        void deleteProfile(string name);
-        void setActiveProfile(string profileName);
+        bool deleteProfile(string name);
+        bool setActiveProfile(string profileName);
         Profile getActiveProfile();
         vector<Profile> getProfiles();
+        void listProfiles();
+        void listExpenses();
         void mainMenu(); 
         void expensesMenu(); // Set expenses here
         void analysisMenu(); 
