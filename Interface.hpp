@@ -21,6 +21,7 @@ class Interface {
         Profile getActiveProfile();
         vector<Profile> getProfiles();
         void listProfiles();
+        void listExpenses();
         void mainMenu(); 
         void expensesMenu(); // Set expenses here
         void analysisMenu(); 

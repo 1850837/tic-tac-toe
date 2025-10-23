@@ -73,6 +73,18 @@ void Interface::listProfiles(){
     return;
 }
 
+void Interface::listExpenses(){
+    vector<Expense> list = getActiveProfile().getExpenses();
+    vector<string> tags;
+    for (int i = 0; i < list.size(); i++){
+        cout << list[i].getName() << ": $" << list[i].getExpenseCost() << endl;
+        tags = list[i].getExpenseTags();
+        for (int j = 0; j < tags.size(); j++){
+            cout << "   " << tags[j] << endl;
+        }
+    }
+}
+
 void Interface::mainMenu() {
 
     string temp;
@@ -173,14 +185,19 @@ void Interface::mainMenu() {
             cout << "        profile add <profile name>           [adds a profile]" << endl;
             cout << "        profile delete <profile name>        [deletes a profile]" << endl;
             cout << "        list profiles                        [lists all registered profiles]" << endl;
+            cout << "        list expenses                        [lists all expenses for current profile]" << endl;
             cout << endl;
             cout << "    misc" << endl;
-            cout << "        help        [displays this message]" << endl;
-            cout << "        quit        [quits application]" << endl;
+            cout << "        help                                 [displays this message]" << endl;
+            cout << "        quit                                 [quits application]" << endl;
         } 
         // list profiles
         else if (arguments[0] == "list" && arguments[1] == "profiles"){
             listProfiles();
+        }
+        // list expenses
+        else if (arguments[0] == "list" && arguments[1] == "expenses"){
+            listExpenses();
         }
         // quit
         else if(arguments[0] == "quit") {
