@@ -62,6 +62,17 @@ Profile Interface::getActiveProfile() {
 vector<Profile> Interface::getProfiles() {
     return this->profiles;
 }
+
+void Interface::listProfiles(){
+    vector<Profile> profs = getProfiles();
+
+    for (int i = 0; i < profs.size(); i++){
+        cout << "        " << profs[i].getName() << "\n";
+    }
+
+    return;
+}
+
 void Interface::mainMenu() {
 
     string temp;
@@ -161,11 +172,16 @@ void Interface::mainMenu() {
             cout << "        profile <profile name>               [switch to existing profile]" << endl;
             cout << "        profile add <profile name>           [adds a profile]" << endl;
             cout << "        profile delete <profile name>        [deletes a profile]" << endl;
+            cout << "        list profiles                        [lists all registered profiles]" << endl;
             cout << endl;
             cout << "    misc" << endl;
             cout << "        help        [displays this message]" << endl;
             cout << "        quit        [quits application]" << endl;
         } 
+        // list profiles
+        else if (arguments[0] == "list" && arguments[1] == "profiles"){
+            listProfiles();
+        }
         // quit
         else if(arguments[0] == "quit") {
             cout << "Goodbye" << endl;

@@ -20,6 +20,7 @@ class Interface {
         bool setActiveProfile(string profileName);
         Profile getActiveProfile();
         vector<Profile> getProfiles();
+        void listProfiles();
         void mainMenu(); 
         void expensesMenu(); // Set expenses here
         void analysisMenu(); 
