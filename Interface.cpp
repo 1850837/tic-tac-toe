@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <cctype>
 using namespace std;
 
 
@@ -25,6 +26,7 @@ void Interface::addProfile(Profile p) {
         }
     }
     profiles.push_back(p);
+    cout << "Added profile " << p.getName() << " successfully." << endl;
     return;
 
 }
@@ -34,6 +36,7 @@ void Interface::deleteProfile(string name) {
         if(profiles[i].getName() == name) {
             if(name == activeProfile.getName()) {
                 cout << "Could not delete profile " << name << ", currently active. Switch to a different profile and try again" << endl;
+                return;
             }
             profiles.erase(profiles.begin() + i);
             return;
@@ -132,7 +135,6 @@ void Interface::mainMenu() {
                 }
                 Profile p({}, newProfileName, 0);
                 addProfile(p);
-                cout << "Added profile " << newProfileName << " successfully." << endl;
             }
         } else if(arguments[0] == "help") {
             cout << "    profile" << endl;
@@ -156,7 +158,85 @@ void Interface::mainMenu() {
 }
 
 void Interface::expensesMenu() {
+    string temp;
+    vector<string> arguments;
+    string costString;
+    string expenseName;
+    bool existingNameFlag;
+    int cost; // cost of the expense, can be in any frequency
+    string frequency; // options: days (d), weeks (w), months (m), years (y)
+    while(true) {
+        vector<Expense> activeExpenses = this->activeProfile.getExpenses();
+        cout << "Please name your expense: ";
+        temp = "";
+        arguments = {};
+        costString = "";  
+        expenseName = "";
+        if(getline(cin, expenseName)) {
+            for(int i = 0; i < activeExpenses.size(); i++) {
+                if(activeExpenses[i].getName() == expenseName) {
+                    cout << "An expense with that name already exists" << endl;
+                    continue;
+                }
 
+            }
+            cout << "Please add the cost of the expense: ";
+            // TODO add cost
+            cout << "Please enter the tags for this expense, seperated by commas (eg: 'essential, emergency fund, groceries')";
+            // TODO add tag
+            cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 3 years, 2 weeks or just 5d 2m 3y 2w)";
+            if(getline(cin, costString)) {
+                for (int i = 0; i < costString.size(); i++){
+                    // case where it's a letter and not the end
+                    if (i != costString.size()-1 && costString[i] != ' '){
+                        temp = temp + costString[i];
+                    }
+                    // case where it's a letter and it's the end
+                    else if (i == costString.size()-1 && costString[i] != ' '){
+                        temp = temp + costString[i];
+                        arguments.push_back(temp);
+                    }
+                    // case where it's a space (end or otherwise)
+                    else {
+                        arguments.push_back(temp);
+                        temp = "";
+                    }
+                }
+                double expenseCost = stod(costString);
+                if(arguments.size() == 1) { // Case where its the shorthand "5d 2m 3y 2w etc"
+                    string strDuration = "";
+                    for(int i = 0; i < arguments.size(); i++) {
+                        if(isdigit(arguments[0][i])) {
+                            strDuration += arguments[0][i];
+                        } else if(arguments[0][i] == 'd') {
+                            int duration = stoi(strDuration);
+                            int finalCost = expenseCost / duration;
+                            this->activeProfile.addExpense(finalCost, expenseName, {}); // To add tags here soon
+                            cout << ("Expense successfully added: ") << endl;
+                            cout << finalCost << " per day" << endl;
+                            cout << expenseName << endl;
+                            break;
+                        } else if(arguments[0][i] == 'w') {
+                            // Convert cost to every day and then add
+                        } else if(arguments[0][i] == 'm') {
+                            // Convert cost to every day and then add
+                        } else if(arguments[0][i] == 'y') {
+                            // Convert cost to every day and then add
+                        }
+                    }
+                } else {
+                    cout << "Please enter a valid duration";
+                }
+            } else {
+                cout << "Please enter a valid expense cost";
+            }
+
+        } else {
+            cout << "Please enter an expense name" << endl;
+            break;
+        }
+
+    }
 }
 
 void Interface::analysisMenu() {
