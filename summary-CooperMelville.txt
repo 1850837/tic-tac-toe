@@ -1,0 +1,13 @@
+Our project consists of two programs: the first is a tic-tac-toe game with a leaderboard and users, and the second is a financial tracker tool, where you can add profiles with a salary, expenses, and then from initial cost and an interest %, it calculates how much you will make in a certain timeframe of days.
+
+For the tic-tac-toe game, I focused on player choice and implementing coordinates for the player to enter, I also implemented the checkPosition() function which checks if a space can be played or not. 
+
+For the finance tracker tool, I designed and implemented the classes for Expense, Profile, and Interface and their compositional relationship. One profile contains a vector of expense objects, and the interface contains every profile. I also implemented helper functions for these attributes, that can get and add values to each attribute.
+
+I implemented the getExpense() function, where users can add an expense and give a duration of how often that is paid either in days, weeks, months, or years of a certain timeframe. The program then calculates from the cost, the duration, and the unit, the cost per day for that expense, and creates an expense class. Tags can also be added to each expense. For getExpense().
+
+Something I wanted to implement for ease of use was a shorthand notation for giving the timeframe, so you could either add for example "4 weeks", or just "4w". In the end, we found that this would result in our code being too long for a feature that wasn't really neccessary, furthermore, my implementation of this feature did not work on Maddy's computer, as it needed to access outside the size of the vector. 
+
+Throughout the project, we had good communication, and we were each immediately avaliable to help eachother debug our implementations. Our class design made managing the data easily, the use of helper classes to manage functions made debugging easy. 
+
+One thing that we could have improved was more thorough testing of our program. We would implement functions and initially assumed without testing that they were correct, only to have to go back and find that the function had an issue. This costed us time we could have spent on potentially adding additional features.
