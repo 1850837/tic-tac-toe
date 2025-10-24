@@ -499,10 +499,6 @@ void Interface::expensesMenu() {
     }
 }
 
-void Interface::analysisMenu() {
-
-}
-
 double Interface::convertToDays(double value, int timeframe, string unit) {
     if(unit == "days") {
         return value / timeframe;

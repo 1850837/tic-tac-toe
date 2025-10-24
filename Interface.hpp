@@ -24,6 +24,5 @@ class Interface {
         void listExpenses();
         void mainMenu(); 
         void expensesMenu(); // Set expenses here
-        void analysisMenu(); 
         double convertToDays(double value, int timeframe, string unit);
 };
