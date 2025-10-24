@@ -179,7 +179,9 @@ void Interface::mainMenu() {
                     }
                 }
             }
-        } 
+        } else if (arguments[0] == "expenses") {
+            expensesMenu();
+        }
         // help
         else if(arguments[0] == "help") {
             cout << "    profile" << endl;
@@ -220,9 +222,13 @@ void Interface::expensesMenu() {
     vector<string> arguments;
     string costString;
     string expenseName;
-    bool existingNameFlag;
-    int cost; // cost of the expense, can be in any frequency
-    string frequency; // options: days (d), weeks (w), months (m), years (y)
+    string costStr; // cost of the expense, can be in any frequency
+    string frequency; // a number and then these options: days (d), weeks (w), months (m), years (y)
+    vector<string> tags;
+    string strDuration;
+    string tagsString;
+    double finalCost;
+    double cost;
     while(true) {
         vector<Expense> activeExpenses = this->activeProfile.getExpenses();
         cout << "Please name your expense: ";
@@ -230,6 +236,13 @@ void Interface::expensesMenu() {
         arguments = {};
         costString = "";  
         expenseName = "";
+        costStr = "";
+        frequency = "";
+        tags = {};
+        strDuration = "";
+        tagsString = "";
+        finalCost = 0.0;
+        cost = 0.0;
         if(getline(cin, expenseName)) {
             for(int i = 0; i < activeExpenses.size(); i++) {
                 if(activeExpenses[i].getName() == expenseName) {
@@ -238,57 +251,90 @@ void Interface::expensesMenu() {
                 }
 
             }
-            cout << "Please add the cost of the expense: ";
-            // TODO add cost
-            cout << "Please enter the tags for this expense, seperated by commas (eg: 'essential, emergency fund, groceries')";
-            // TODO add tag
-            cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 3 years, 2 weeks or just 5d 2m 3y 2w)";
-            if(getline(cin, costString)) {
-                for (int i = 0; i < costString.size(); i++){
-                    // case where it's a letter and not the end
-                    if (i != costString.size()-1 && costString[i] != ' '){
-                        temp = temp + costString[i];
-                    }
-                    // case where it's a letter and it's the end
-                    else if (i == costString.size()-1 && costString[i] != ' '){
-                        temp = temp + costString[i];
-                        arguments.push_back(temp);
-                    }
-                    // case where it's a space (end or otherwise)
-                    else {
-                        arguments.push_back(temp);
-                        temp = "";
-                    }
-                }
-                double expenseCost = stod(costString);
-                if(arguments.size() == 1) { // Case where its the shorthand "5d 2m 3y 2w etc"
-                    string strDuration = "";
-                    for(int i = 0; i < arguments.size(); i++) {
-                        if(isdigit(arguments[0][i])) {
-                            strDuration += arguments[0][i];
-                        } else if(arguments[0][i] == 'd') {
-                            int duration = stoi(strDuration);
-                            int finalCost = expenseCost / duration;
-                            this->activeProfile.addExpense(finalCost, expenseName, {}); // To add tags here soon
-                            cout << ("Expense successfully added: ") << endl;
-                            cout << finalCost << " per day" << endl;
-                            cout << expenseName << endl;
-                            break;
-                        } else if(arguments[0][i] == 'w') {
-                            // Convert cost to every day and then add
-                        } else if(arguments[0][i] == 'm') {
-                            // Convert cost to every day and then add
-                        } else if(arguments[0][i] == 'y') {
-                            // Convert cost to every day and then add
+            cout << "Please add the cost of the expense (type it as a double eg: 23.6 50.0 91.70): ";
+            if(getline(cin, costStr)) {
+                cost = stod(costStr);
+                cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)"; // This bit of the menu could be its own function
+                if(getline(cin, costString)) {
+                    for (int i = 0; i < costString.size(); i++){
+                        // case where it's a letter and not the end
+                        if (i != costString.size()-1 && costString[i] != ' '){
+                            temp = temp + costString[i];
+                        }
+                        // case where it's a letter and it's the end
+                        else if (i == costString.size()-1 && costString[i] != ' '){
+                            temp = temp + costString[i];
+                            arguments.push_back(temp);
+                        }
+                        // case where it's a space (end or otherwise)
+                        else {
+                            arguments.push_back(temp);
+                            temp = "";
                         }
                     }
-                } else {
-                    cout << "Please enter a valid duration";
-                }
-            } else {
-                cout << "Please enter a valid expense cost";
-            }
+                    //double expenseCost = stod(costString);
+                    if(arguments.size() < 3) { // Either 1 or 2, 0 can't happen
+                        for(int i = 0; i < arguments[0].size(); i++) {
+                            if(isdigit(arguments[0][i])) {
+                                strDuration += arguments[0][i];
+                            } else if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
+                                int duration = stoi(strDuration);
+                                finalCost = cost / duration;
+                                cout << cost;
+                                cout << duration;
 
+                            } else if((arguments[0][i] == 'w' && arguments[0].back() == 'w') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
+                                int duration = stoi(strDuration);
+                                finalCost = cost / (duration * 7);
+
+                            } else if((arguments[0][i] == 'm' && arguments[0].back() == 'm') || (i == arguments[0].size()-1 && arguments[1] == "months")) {
+                                int duration = stoi(strDuration);
+                                finalCost = cost / (duration * 30);
+
+                            } else if((arguments[0][i] == 'y' && arguments[0].back() == 'y') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
+                                int duration = stoi(strDuration);
+                                finalCost = cost / (duration * 365);
+
+                            } else {
+                                cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
+                                continue;
+                            }
+
+                        }
+                        cout << "Any tags? Seperate tags by commas (eg. 'essential, emergency fund, groceries'), or press enter for no tags" << endl;
+                        temp = "";
+                        getline(cin, tagsString);
+                        for(int i = 0; i < tagsString.size(); i++) {
+                            if(tagsString[i] != ',') {
+                                temp += tagsString[i];
+                            } else if(tagsString[i] == ',' && tagsString[i+1] == ' ') {
+                                tags.push_back(temp);
+                                temp = "";
+                                i += 1;
+                            }
+                        }
+                        this->activeProfile.addExpense(finalCost, expenseName, tags); 
+                        cout << ("Expense successfully added: ") << endl;
+                        cout << finalCost << " per day" << endl;
+                        cout << expenseName << endl;
+                        break;
+
+                    } else {
+                        cout << "Please enter a valid duration";
+                        continue;
+                    }
+                } else {
+                    cout << "Please enter a valid expense cost";
+                    continue;
+                }
+
+
+            } else {
+                cout << "Please enter a valid cost" << endl;
+                break;
+            }
+            cout << "Please enter the tags for this expense, seperated by commas (eg: 'essential, emergency fund, groceries')";
+            // TODO add tag
         } else {
             cout << "Please enter an expense name" << endl;
             break;

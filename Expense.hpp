@@ -7,19 +7,19 @@ using namespace std;
 class Expense {
 
     private:
-        int dailyCost;
+        double dailyCost;
         string name;
         vector<string> tags;
 
     public:
         Expense();
-        Expense(int cost, string name, vector<string> tags);
+        Expense(double cost, string name, vector<string> tags);
 
-        int getExpenseCost();
+        double getExpenseCost();
         vector<string> getExpenseTags();
         string getName();
 
-        void setExpenseCost(int &oldCost, int expenseCost);
+        void setExpenseCost(double &oldCost, double expenseCost);
         void setExpenseTags(vector<string> &oldTags, vector<string> tags);
         void setName(string &oldName, string name);
 };

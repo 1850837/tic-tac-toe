@@ -6,18 +6,18 @@
 using namespace std;
 
 Expense::Expense() {
-    this->dailyCost = 0;
+    this->dailyCost = 0.0;
     this->name = "";
     this->tags = {};
 }
-Expense::Expense(int cost, string name, vector<string> tags) {
+Expense::Expense(double cost, string name, vector<string> tags) {
     this->dailyCost = cost;
     this->name = name;
     this->tags = tags;
 }
 
 
-int Expense::getExpenseCost() {
+double Expense::getExpenseCost() {
     return this->dailyCost;
 }
 vector<string> Expense::getExpenseTags() {
@@ -29,7 +29,7 @@ string Expense::getName() {
 }
 
 
-void Expense::setExpenseCost(int &oldCost, int expenseCost) {
+void Expense::setExpenseCost(double &oldCost, double expenseCost) {
     oldCost = expenseCost;
 }
 void Expense::setExpenseTags(vector<string> &oldTags, vector<string> tags) {
