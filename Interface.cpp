@@ -224,6 +224,7 @@ void Interface::mainMenu() {
                             else if (i == freqString.size()-1 && freqString[i] != ' '){
                                 temp = temp + freqString[i];
                                 arguments.push_back(temp);
+                                cout << "pushed back " << temp << endl;
                             }
                             // case where it's a space (end or otherwise)
                             else {
@@ -232,12 +233,14 @@ void Interface::mainMenu() {
                             }
                         }
                     }
+                    
                     bool argFlag = false;
                     if(arguments.size() < 3) { // Either 1 or 2, 0 can't happen
                         for(int i = 0; i < arguments[0].size(); i++) {
+                            cout << i << endl;
                             if(isdigit(arguments[0][i])) {
                                 strDuration += arguments[0][i];
-                            } else if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
+                            }   if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
                                 duration = stoi(strDuration);
                                 finalSalary = convertToDays(salary, duration, "days");
                                 argFlag = true; 
@@ -421,7 +424,7 @@ void Interface::expensesMenu() {
                             for(int i = 0; i < arguments[0].size(); i++) {
                                 if(isdigit(arguments[0][i])) {
                                     strDuration += arguments[0][i];
-                                } else if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
+                                }if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
                                     duration = stoi(strDuration);
                                     finalCost = convertToDays(cost, duration, "days");
                                     argFlag = true; 
