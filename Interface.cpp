@@ -25,7 +25,7 @@ void Interface::addProfile(Profile p) {
             return;
         }
     }
-    profiles.push_back(p);
+    this->profiles.push_back(p);
     cout << "Added profile " << p.getName() << " successfully." << endl;
     return;
 
@@ -71,8 +71,7 @@ void Interface::listProfiles(){
     for (int i = 0; i < profs.size(); i++){
         cout << "        " << profs[i].getName() << "\n";
     }
-
-    return;
+ 
 }
 
 void Interface::listExpenses(){
@@ -135,7 +134,6 @@ void Interface::mainMenu() {
             } else {
                 Profile p({}, arguments[2], 0);
                 addProfile(p);
-                cout << "Added profile " << arguments[2] << " successfully." << endl;
             }
         } 
         // profile delete <profile name>
@@ -154,7 +152,7 @@ void Interface::mainMenu() {
             }
         } 
         // profile <profile name>
-        else if (arguments[0] == "profile"){
+        else if (arguments[0] == "profile" && arguments.size() > 1){
             if (arguments.size() <= 1){
                 cout << "Please provide a name for the profile to switch to (profile <profile name>)" << endl;
             } else {
@@ -287,12 +285,12 @@ void Interface::mainMenu() {
             cout << "        profile <profile name>               [switch to existing profile]" << endl;
             cout << "        profile add <profile name>           [adds a profile]" << endl;
             cout << "        profile delete <profile name>        [deletes a profile]" << endl;
-            cout << "        profile list                         [lists all registered profiles]" << endl;
+            cout << "        profiles list                         [lists all registered profiles]" << endl;
             cout << endl;
             cout << "    expense" << endl;
             cout << "        expense add                          [add a new expense to this profile]" << endl;
             cout << "        expense delete <expense name>        [deletes the expense <expense name>]" << endl;
-            cout << "        expense list                         [lists all expenses for current profile]" << endl;
+            cout << "        expenses list                         [lists all expenses for current profile]" << endl;
             cout << "    salary" << endl;
             cout << "        salary                               [Shows your current salary converted to per day]" << endl;
             cout << "        salary add                           [add a salary to this profile, adding a new salary will replace the old one]" << endl;
@@ -305,11 +303,11 @@ void Interface::mainMenu() {
             cout << "        quit                                 [quits application]" << endl;
         } 
         // list profiles
-        else if (arguments[0] == "profile" && arguments[1] == "list"){
+        else if (arguments[0] == "profiles" && arguments[1] == "list"){
             listProfiles();
         }
         // list expenses
-        else if (arguments[0] == "expense" && arguments[1] == "list"){
+        else if (arguments[0] == "expenses" && arguments[1] == "list"){
             listExpenses();
         }
         // calculate savings <time (days, int)> <interest rate (%, double)> <current savings ($, double)>
