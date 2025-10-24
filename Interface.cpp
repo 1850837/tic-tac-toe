@@ -193,6 +193,87 @@ void Interface::mainMenu() {
         } else if(arguments[0] == "salary" && arguments.size() == 1) {
             cout << "$" << activeProfile.getDailySalary() << " per day" << endl;
         } else if(arguments[0] == "salary" && arguments.size() == 2) {
+            string salaryStr;
+            double salary;
+            string strDuration;
+            double finalSalary;
+            int duration;
+            string temp;
+            string freqString;
+            vector<string> arguments;
+            while(true) {
+                salaryStr = "";
+                salary = 0.0;
+                strDuration = "";
+                finalSalary = 0.0;
+                int duration;
+                temp = "";
+                freqString = "";
+                arguments = {};
+                cout << "Enter your salary: ";
+                if(getline(cin, salaryStr)) {
+                    salary = stod(salaryStr);
+                    cout << "Type the frequency of this salary (in the format eg. '5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
+                    if(getline(cin, freqString)) {
+                        for (int i = 0; i < freqString.size(); i++){
+                            // case where it's a letter and not the end
+                            if (i != freqString.size()-1 && freqString[i] != ' '){
+                                temp = temp + freqString[i];
+                            }
+                            // case where it's a letter and it's the end
+                            else if (i == freqString.size()-1 && freqString[i] != ' '){
+                                temp = temp + freqString[i];
+                                arguments.push_back(temp);
+                            }
+                            // case where it's a space (end or otherwise)
+                            else {
+                                arguments.push_back(temp);
+                                temp = "";
+                            }
+                        }
+                    }
+                    bool argFlag = false;
+                    if(arguments.size() < 3) { // Either 1 or 2, 0 can't happen
+                        for(int i = 0; i < arguments[0].size(); i++) {
+                            if(isdigit(arguments[0][i])) {
+                                strDuration += arguments[0][i];
+                            } else if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
+                                duration = stoi(strDuration);
+                                finalSalary = convertToDays(salary, duration, "days");
+                                argFlag = true; 
+                                break;
+
+                            } else if((arguments[0][i] == 'w' && arguments[0].back() == 'w') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
+                                duration = stoi(strDuration);
+                                finalSalary = convertToDays(salary, duration, "weeks");
+                                argFlag = true; 
+                                break;
+
+                            } else if((arguments[0][i] == 'm' && arguments[0].back() == 'm') || (i == arguments[0].size()-1 && arguments[1] == "months")) {
+                                duration = stoi(strDuration);
+                                finalSalary = convertToDays(salary, duration, "months");
+                                argFlag = true; 
+                                break;
+
+                            } else if((arguments[0][i] == 'y' && arguments[0].back() == 'y') || (i == arguments[0].size()-1 && arguments[1] == "years")) {
+                                duration = stoi(strDuration);
+                                finalSalary = convertToDays(salary, duration, "years");
+                                argFlag = true; 
+                                break;
+                        }
+                        } if(argFlag == false) {
+                            cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
+                            continue;
+                        }
+                        this->activeProfile.addDailySalary(finalSalary);
+                        cout << "Salary added successfully: $" << finalSalary << " per day" << endl;
+                        break;
+                    } 
+                } else {
+                    cout << "Invalid input" << endl;
+                    continue;
+                }
+            }
 
         }
         // help
@@ -328,11 +409,11 @@ void Interface::expensesMenu() {
                                     argFlag = true; 
                                     break;
 
+
+                            }
                             } if(argFlag == false) {
                                 cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
                                 expensesMenu();
-                            }
-
                             }
                             cout << "Any tags? Seperate tags by commas (eg. 'essential, emergency fund, groceries'), or press enter for no tags" << endl;
                             temp = "";
