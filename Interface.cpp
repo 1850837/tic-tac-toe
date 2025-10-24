@@ -208,7 +208,7 @@ void Interface::mainMenu() {
                 cout << "Enter your salary: ";
                 if(getline(cin, salaryStr)) {
                     salary = stod(salaryStr);
-                    cout << "Type the frequency of this salary (in the format eg. '5 days, 2 months, 1 years, 2 weeks)" << endl;
+                    cout << "Type the frequency of this salary (in the format eg. '5 days, 2 months, 1 years, 2 weeks): ";
                     if(getline(cin, freqString)) {
                         for (int i = 0; i < freqString.size(); i++){
                             // case where it's a letter and not the end
@@ -219,7 +219,6 @@ void Interface::mainMenu() {
                             else if (i == freqString.size()-1 && freqString[i] != ' '){
                                 temp = temp + freqString[i];
                                 salaryArguments.push_back(temp);
-                                cout << "pushed back in salary " << temp << endl;
                             }
                             // case where it's a space (end or otherwise)
                             else {
@@ -231,11 +230,7 @@ void Interface::mainMenu() {
                     
                     bool argFlag = false;
                     if(salaryArguments.size() == 2) { // Either 1 or 2, 0 can't happen
-                        for(int i = 0; i < salaryArguments.size(); i++) {
-                            cout << salaryArguments[i] << endl;
-                        }
                         for(int i = 0; i < salaryArguments[0].size(); i++) {
-                            cout << i << endl;
                             if(isdigit(salaryArguments[0][i])) {
                                 strDuration += salaryArguments[0][i];
                             } if((i == salaryArguments[0].size()-1 && salaryArguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
@@ -263,11 +258,11 @@ void Interface::mainMenu() {
                                 break;
                         }
                         } if(argFlag == false) {
-                            cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks)" << endl;
+                            cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks)." << endl;
                             continue;
                         }
                         this->activeProfile.addDailySalary(finalSalary);
-                        cout << "Salary added successfully: $" << finalSalary << " per day" << endl;
+                        cout << "Salary added successfully: $" << finalSalary << " per day." << endl;
                         break;
                     } else {
                         cout << "You must provide more than 1 value eg: 5 days, 2 months, 1 years, 2 weeks" << endl;
@@ -402,7 +397,7 @@ void Interface::expensesMenu() {
                 if(getline(cin, temp)) {
                     cost = stod(temp);
                     temp = "";
-                    cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 1 years, 2 weeks)"; // This bit of the menu could be its own function
+                    cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 1 years, 2 weeks): "; // This bit of the menu could be its own function
                     if(getline(cin, freqString)) {
                         for (int i = 0; i < freqString.size(); i++){
                             // case where it's a letter and not the end
@@ -452,10 +447,10 @@ void Interface::expensesMenu() {
                                     break;
                             }
                             } if(argFlag == false) {
-                                cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
+                                cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)." << endl;
                                 expensesMenu();
                             }
-                            cout << "Any tags? Seperate tags by commas (eg. 'essential, emergency fund, groceries'), or press enter for no tags" << endl;
+                            cout << "Any tags? Seperate tags by commas (eg. 'essential, emergency fund, groceries'), or press enter for no tags: ";
                             temp = "";
                             getline(cin, tagsString);
                             for(int i = 0; i < tagsString.size(); i++) {
