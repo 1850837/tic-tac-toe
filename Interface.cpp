@@ -8,6 +8,7 @@
 #include <vector>
 #include <sstream>
 #include <cctype>
+#include <cmath>
 using namespace std;
 
 
@@ -315,9 +316,10 @@ void Interface::mainMenu() {
             if (arguments.size() < 5){
                 cout << "Please include all information!" << endl;
             } else {
-                int time = stoi(arguments[2]);
-                double interest = stod(arguments[3]);
+                double time = stod(arguments[2]);
+                double interest = stod(arguments[3])/100;
                 double savings = stod(arguments[4]);
+                double timeYears = time/365;
 
                 // checking input vals
                 if (time < 0){
@@ -337,6 +339,9 @@ void Interface::mainMenu() {
                     for (int i = 0; i < time; i++){
                         savings = savings + getActiveProfile().getDailySalary() - totalExpenses + (savings * interest);
                     }
+                    // cout << "Time in years: " << timeYears << " interest = " << interest << "% savings = " << savings << " totalExpense = " << totalExpenses << endl;
+
+                    // double sav = savings * powf((1 + (interest/4)), 4*timeYears);
 
                     cout << "After " << time << " days, you will have saved $" << savings << "!" << endl;
                 }
