@@ -51,6 +51,10 @@ void Profile::deleteExpense(string name) {
     cout << "An expense with that name does not exist." << endl;
 }
 
+void Profile::addDailySalary(int dailySalary) {
+    this->dailySalary = dailySalary;
+}
+
 string Profile::getName() {
     return this->name;
 }

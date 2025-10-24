@@ -190,6 +190,10 @@ void Interface::mainMenu() {
             }
             Expense e = activeProfile.getExpenseByName(arguments[2]);
             activeProfile.deleteExpense(e.getName());
+        } else if(arguments[0] == "salary" && arguments.size() == 1) {
+            cout << "$" << activeProfile.getDailySalary() << " per day" << endl;
+        } else if(arguments[0] == "salary" && arguments.size() == 2) {
+
         }
         // help
         else if(arguments[0] == "help") {
@@ -203,6 +207,9 @@ void Interface::mainMenu() {
             cout << "        expense add                          [add a new expense to this profile]" << endl;
             cout << "        expense delete <expense name>        [deletes the expense <expense name>]" << endl;
             cout << "        expense list                         [lists all expenses for current profile]" << endl;
+            cout << "    salary" << endl;
+            cout << "        salary                               [Shows your current salary converted to per day]" << endl;
+            cout << "        salary add                           [add a salary to this profile, adding a new salary will replace the old one]" << endl;
             cout << "    misc" << endl;
             cout << "        help                                 [displays this message]" << endl;
             cout << "        quit                                 [quits application]" << endl;
@@ -299,25 +306,27 @@ void Interface::expensesMenu() {
                                     strDuration += arguments[0][i];
                                 } else if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
                                     duration = stoi(strDuration);
-                                    finalCost = cost / duration;
-                                    cout << cost;
-                                    cout << duration;
+                                    finalCost = convertToDays(cost, duration, "days");
                                     argFlag = true; 
+                                    break;
 
                                 } else if((arguments[0][i] == 'w' && arguments[0].back() == 'w') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
                                     duration = stoi(strDuration);
-                                    finalCost = cost / (duration * 7);
+                                    finalCost = convertToDays(cost, duration, "weeks");
                                     argFlag = true; 
+                                    break;
 
                                 } else if((arguments[0][i] == 'm' && arguments[0].back() == 'm') || (i == arguments[0].size()-1 && arguments[1] == "months")) {
                                     duration = stoi(strDuration);
-                                    finalCost = cost / (duration * 30);
+                                    finalCost = convertToDays(cost, duration, "months");
                                     argFlag = true; 
+                                    break;
 
                                 } else if((arguments[0][i] == 'y' && arguments[0].back() == 'y') || (i == arguments[0].size()-1 && arguments[1] == "years")) {
                                     duration = stoi(strDuration);
-                                    finalCost = cost / (duration * 365);
+                                    finalCost = convertToDays(cost, duration, "years");
                                     argFlag = true; 
+                                    break;
 
                             } if(argFlag == false) {
                                 cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
@@ -377,3 +386,15 @@ void Interface::expensesMenu() {
 void Interface::analysisMenu() {
 
 }
+
+double Interface::convertToDays(double value, int timeframe, string unit) {
+    if(unit == "days") {
+        return value / timeframe;
+    } if(unit == "weeks") {
+        return value / (timeframe * 7);
+    } if(unit == "months") {
+        return value / (timeframe * 30);
+    } if(unit == "years") {
+        return value / (timeframe * 365);
+    }
+} 
