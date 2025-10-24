@@ -337,11 +337,8 @@ void Interface::mainMenu() {
                     }
 
                     for (int i = 0; i < time; i++){
-                        savings = savings + getActiveProfile().getDailySalary() - totalExpenses + (savings * interest);
+                        savings = savings + getActiveProfile().getDailySalary() - totalExpenses + (savings * (interest/365));
                     }
-                    // cout << "Time in years: " << timeYears << " interest = " << interest << "% savings = " << savings << " totalExpense = " << totalExpenses << endl;
-
-                    // double sav = savings * powf((1 + (interest/4)), 4*timeYears);
 
                     cout << "After " << time << " days, you will have saved $" << savings << "!" << endl;
                 }
