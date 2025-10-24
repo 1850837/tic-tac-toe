@@ -79,7 +79,7 @@ void Interface::listExpenses(){
     vector<Expense> list = getActiveProfile().getExpenses();
     vector<string> tags;
     for (int i = 0; i < list.size(); i++){
-        cout << list[i].getName() << ": $" << list[i].getExpenseCost() << endl;
+        cout << list[i].getName() << ": $" << list[i].getExpenseCost() << " a day" << endl;
         tags = list[i].getExpenseTags();
         for (int j = 0; j < tags.size(); j++){
             cout << "   " << tags[j] << endl;
@@ -179,8 +179,17 @@ void Interface::mainMenu() {
                     }
                 }
             }
-        } else if (arguments[0] == "expenses") {
+        } else if (arguments[0] == "expense add") {
             expensesMenu();
+        }
+        else if (arguments[0] == "expense delete") {
+            if(arguments.size() > 2) {
+                Expense e = activeProfile.getExpenseByName(arguments[2]);
+            } else {
+                cout << "Please include a name of the expense to delete" << endl;
+            }
+            Expense e = activeProfile.getExpenseByName(arguments[2]);
+            activeProfile.deleteExpense(e.getName());
         }
         // help
         else if(arguments[0] == "help") {
@@ -188,9 +197,12 @@ void Interface::mainMenu() {
             cout << "        profile <profile name>               [switch to existing profile]" << endl;
             cout << "        profile add <profile name>           [adds a profile]" << endl;
             cout << "        profile delete <profile name>        [deletes a profile]" << endl;
-            cout << "        list profiles                        [lists all registered profiles]" << endl;
-            cout << "        list expenses                        [lists all expenses for current profile]" << endl;
+            cout << "        profile list                         [lists all registered profiles]" << endl;
             cout << endl;
+            cout << "    expense" << endl;
+            cout << "        expense add                          [add a new expense to this profile]" << endl;
+            cout << "        expense delete <expense name>        [deletes the expense <expense name>]" << endl;
+            cout << "        expense list                         [lists all expenses for current profile]" << endl;
             cout << "    misc" << endl;
             cout << "        help                                 [displays this message]" << endl;
             cout << "        quit                                 [quits application]" << endl;
@@ -220,7 +232,7 @@ void Interface::mainMenu() {
 void Interface::expensesMenu() {
     string temp;
     vector<string> arguments;
-    string costString;
+    string freqString;
     string expenseName;
     string costStr; // cost of the expense, can be in any frequency
     string frequency; // a number and then these options: days (d), weeks (w), months (m), years (y)
@@ -229,12 +241,13 @@ void Interface::expensesMenu() {
     string tagsString;
     double finalCost;
     double cost;
+    int duration;
     while(true) {
         vector<Expense> activeExpenses = this->activeProfile.getExpenses();
         cout << "Please name your expense: ";
         temp = "";
         arguments = {};
-        costString = "";  
+        freqString = "";  
         expenseName = "";
         costStr = "";
         frequency = "";
@@ -243,6 +256,7 @@ void Interface::expensesMenu() {
         tagsString = "";
         finalCost = 0.0;
         cost = 0.0;
+        duration = 0;
         if(getline(cin, expenseName)) {
             for(int i = 0; i < activeExpenses.size(); i++) {
                 if(activeExpenses[i].getName() == expenseName) {
@@ -252,18 +266,19 @@ void Interface::expensesMenu() {
 
             }
             cout << "Please add the cost of the expense (type it as a double eg: 23.6 50.0 91.70): ";
-            if(getline(cin, costStr)) {
-                cost = stod(costStr);
+            if(getline(cin, temp)) {
+                cost = stod(temp);
+                temp = "";
                 cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)"; // This bit of the menu could be its own function
-                if(getline(cin, costString)) {
-                    for (int i = 0; i < costString.size(); i++){
+                if(getline(cin, freqString)) {
+                    for (int i = 0; i < freqString.size(); i++){
                         // case where it's a letter and not the end
-                        if (i != costString.size()-1 && costString[i] != ' '){
-                            temp = temp + costString[i];
+                        if (i != freqString.size()-1 && freqString[i] != ' '){
+                            temp = temp + freqString[i];
                         }
                         // case where it's a letter and it's the end
-                        else if (i == costString.size()-1 && costString[i] != ' '){
-                            temp = temp + costString[i];
+                        else if (i == freqString.size()-1 && freqString[i] != ' '){
+                            temp = temp + freqString[i];
                             arguments.push_back(temp);
                         }
                         // case where it's a space (end or otherwise)
@@ -278,21 +293,21 @@ void Interface::expensesMenu() {
                             if(isdigit(arguments[0][i])) {
                                 strDuration += arguments[0][i];
                             } else if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
-                                int duration = stoi(strDuration);
+                                duration = stoi(strDuration);
                                 finalCost = cost / duration;
                                 cout << cost;
                                 cout << duration;
 
                             } else if((arguments[0][i] == 'w' && arguments[0].back() == 'w') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
-                                int duration = stoi(strDuration);
+                                duration = stoi(strDuration);
                                 finalCost = cost / (duration * 7);
 
                             } else if((arguments[0][i] == 'm' && arguments[0].back() == 'm') || (i == arguments[0].size()-1 && arguments[1] == "months")) {
-                                int duration = stoi(strDuration);
+                                duration = stoi(strDuration);
                                 finalCost = cost / (duration * 30);
 
                             } else if((arguments[0][i] == 'y' && arguments[0].back() == 'y') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
-                                int duration = stoi(strDuration);
+                                duration = stoi(strDuration);
                                 finalCost = cost / (duration * 365);
 
                             } else {
@@ -313,10 +328,15 @@ void Interface::expensesMenu() {
                                 i += 1;
                             }
                         }
+                        tags.push_back(temp);
                         this->activeProfile.addExpense(finalCost, expenseName, tags); 
                         cout << ("Expense successfully added: ") << endl;
                         cout << finalCost << " per day" << endl;
                         cout << expenseName << endl;
+                        cout << "Tags: " << endl;
+                        for(int i = 0; i < tags.size(); i++) {
+                            cout << tags[i] << ", " << endl;
+                        }
                         break;
 
                     } else {

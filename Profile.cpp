@@ -44,9 +44,11 @@ void Profile::deleteExpense(string name) {
     for(int i = 0; i < expenses.size(); i++) {
         if(expenses[i].getName() == name) {
             expenses.erase(expenses.begin() + i);
+            cout << "Expense " << expenses[i].getName() << " successfully deleted" << endl;
             return;
         }
     }
+    cout << "An expense with that name does not exist." << endl;
 }
 
 string Profile::getName() {
