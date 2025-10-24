@@ -133,13 +133,9 @@ void Interface::mainMenu() {
             if(arguments.size() <= 2) {
                 cout << "Please provide a name for the new profile (profile add <profile name>)" << endl;
             } else {
-                string newProfileName;
-                for(int i = 2; i < arguments.size(); i++) {
-                    newProfileName += arguments[i];
-                }
-                Profile p({}, newProfileName, 0);
+                Profile p({}, arguments[2], 0);
                 addProfile(p);
-                cout << "Added profile " << newProfileName << " successfully." << endl;
+                cout << "Added profile " << arguments[2] << " successfully." << endl;
             }
         } 
         // profile delete <profile name>
@@ -200,7 +196,7 @@ void Interface::mainMenu() {
             int duration;
             string temp;
             string freqString;
-            vector<string> arguments;
+            vector<string> salaryArguments;
             while(true) {
                 salaryStr = "";
                 salary = 0.0;
@@ -209,11 +205,11 @@ void Interface::mainMenu() {
                 int duration;
                 temp = "";
                 freqString = "";
-                arguments = {};
+                salaryArguments = {};
                 cout << "Enter your salary: ";
                 if(getline(cin, salaryStr)) {
                     salary = stod(salaryStr);
-                    cout << "Type the frequency of this salary (in the format eg. '5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
+                    cout << "Type the frequency of this salary (in the format eg. '5 days, 2 months, 1 years, 2 weeks)" << endl;
                     if(getline(cin, freqString)) {
                         for (int i = 0; i < freqString.size(); i++){
                             // case where it's a letter and not the end
@@ -223,54 +219,60 @@ void Interface::mainMenu() {
                             // case where it's a letter and it's the end
                             else if (i == freqString.size()-1 && freqString[i] != ' '){
                                 temp = temp + freqString[i];
-                                arguments.push_back(temp);
-                                cout << "pushed back " << temp << endl;
+                                salaryArguments.push_back(temp);
+                                cout << "pushed back in salary " << temp << endl;
                             }
                             // case where it's a space (end or otherwise)
                             else {
-                                arguments.push_back(temp);
+                                salaryArguments.push_back(temp);
                                 temp = "";
                             }
                         }
                     }
                     
                     bool argFlag = false;
-                    if(arguments.size() < 3) { // Either 1 or 2, 0 can't happen
-                        for(int i = 0; i < arguments[0].size(); i++) {
+                    if(salaryArguments.size() == 2) { // Either 1 or 2, 0 can't happen
+                        for(int i = 0; i < salaryArguments.size(); i++) {
+                            cout << salaryArguments[i] << endl;
+                        }
+                        for(int i = 0; i < salaryArguments[0].size(); i++) {
                             cout << i << endl;
-                            if(isdigit(arguments[0][i])) {
-                                strDuration += arguments[0][i];
-                            }   if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
+                            if(isdigit(salaryArguments[0][i])) {
+                                strDuration += salaryArguments[0][i];
+                            } if((i == salaryArguments[0].size()-1 && salaryArguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
                                 duration = stoi(strDuration);
                                 finalSalary = convertToDays(salary, duration, "days");
                                 argFlag = true; 
                                 break;
 
-                            } else if((arguments[0][i] == 'w' && arguments[0].back() == 'w') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
+                            } else if ((i == salaryArguments[0].size()-1 && salaryArguments[1] == "weeks")) {
                                 duration = stoi(strDuration);
                                 finalSalary = convertToDays(salary, duration, "weeks");
                                 argFlag = true; 
                                 break;
 
-                            } else if((arguments[0][i] == 'm' && arguments[0].back() == 'm') || (i == arguments[0].size()-1 && arguments[1] == "months")) {
+                            } else if((i == salaryArguments[0].size()-1 && salaryArguments[1] == "months")) {
                                 duration = stoi(strDuration);
                                 finalSalary = convertToDays(salary, duration, "months");
                                 argFlag = true; 
                                 break;
 
-                            } else if((arguments[0][i] == 'y' && arguments[0].back() == 'y') || (i == arguments[0].size()-1 && arguments[1] == "years")) {
+                            } else if((i == salaryArguments[0].size()-1 && salaryArguments[1] == "years")) {
                                 duration = stoi(strDuration);
                                 finalSalary = convertToDays(salary, duration, "years");
                                 argFlag = true; 
                                 break;
                         }
                         } if(argFlag == false) {
-                            cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
+                            cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks)" << endl;
                             continue;
                         }
                         this->activeProfile.addDailySalary(finalSalary);
                         cout << "Salary added successfully: $" << finalSalary << " per day" << endl;
                         break;
+                    } else {
+                        cout << "You must provide more than 1 value eg: 5 days, 2 months, 1 years, 2 weeks" << endl;
+                        continue;
                     } 
                 } else {
                     cout << "Invalid input" << endl;
@@ -303,11 +305,11 @@ void Interface::mainMenu() {
             cout << "        quit                                 [quits application]" << endl;
         } 
         // list profiles
-        else if (arguments[0] == "list" && arguments[1] == "profiles"){
+        else if (arguments[0] == "profile" && arguments[1] == "list"){
             listProfiles();
         }
         // list expenses
-        else if (arguments[0] == "list" && arguments[1] == "expenses"){
+        else if (arguments[0] == "expense" && arguments[1] == "list"){
             listExpenses();
         }
         // calculate savings <time (days, int)> <interest rate (%, double)> <current savings ($, double)>
@@ -400,7 +402,7 @@ void Interface::expensesMenu() {
                 if(getline(cin, temp)) {
                     cost = stod(temp);
                     temp = "";
-                    cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)"; // This bit of the menu could be its own function
+                    cout << "Please enter the frequency of the expense (eg, '5 days, 2 months, 1 years, 2 weeks)"; // This bit of the menu could be its own function
                     if(getline(cin, freqString)) {
                         for (int i = 0; i < freqString.size(); i++){
                             // case where it's a letter and not the end
@@ -420,35 +422,34 @@ void Interface::expensesMenu() {
                         }
                         //double expenseCost = stod(costString);
                         bool argFlag = false;
-                        if(arguments.size() < 3) { // Either 1 or 2, 0 can't happen
+                        if(arguments.size() == 2) { 
                             for(int i = 0; i < arguments[0].size(); i++) {
+                                cout << i << endl;
                                 if(isdigit(arguments[0][i])) {
                                     strDuration += arguments[0][i];
-                                }if((arguments[0][i] == 'd' && arguments[0].back() == 'd') || (i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
+                                } if((i == arguments[0].size()-1 && arguments[1] == "days")) { // Checks if "day" was selected, and also checks if that digit is the last one
                                     duration = stoi(strDuration);
                                     finalCost = convertToDays(cost, duration, "days");
                                     argFlag = true; 
                                     break;
 
-                                } else if((arguments[0][i] == 'w' && arguments[0].back() == 'w') || (i == arguments[0].size()-1 && arguments[1] == "weeks")) {
+                                } else if ((i == arguments[0].size()-1 && arguments[1] == "weeks")) {
                                     duration = stoi(strDuration);
                                     finalCost = convertToDays(cost, duration, "weeks");
                                     argFlag = true; 
                                     break;
 
-                                } else if((arguments[0][i] == 'm' && arguments[0].back() == 'm') || (i == arguments[0].size()-1 && arguments[1] == "months")) {
+                                } else if((i == arguments[0].size()-1 && arguments[1] == "months")) {
                                     duration = stoi(strDuration);
                                     finalCost = convertToDays(cost, duration, "months");
                                     argFlag = true; 
                                     break;
 
-                                } else if((arguments[0][i] == 'y' && arguments[0].back() == 'y') || (i == arguments[0].size()-1 && arguments[1] == "years")) {
+                                } else if((i == arguments[0].size()-1 && arguments[1] == "years")) {
                                     duration = stoi(strDuration);
                                     finalCost = convertToDays(cost, duration, "years");
                                     argFlag = true; 
                                     break;
-
-
                             }
                             } if(argFlag == false) {
                                 cout << "Please enter a valid duration in the correct format eg. 5 days, 2 months, 1 years, 2 weeks or just 5d 2m 3y 2w)" << endl;
