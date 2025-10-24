@@ -203,6 +203,10 @@ void Interface::mainMenu() {
             cout << "        expense add                          [add a new expense to this profile]" << endl;
             cout << "        expense delete <expense name>        [deletes the expense <expense name>]" << endl;
             cout << "        expense list                         [lists all expenses for current profile]" << endl;
+            cout << endl;
+            cout << "    calculate" << endl;
+            cout << "        calculate savings <time (days, int)> <interest rate (%, double)> <current savings ($, double)>" << endl;
+            cout << "                                             [calculates the savings after <time>]" << endl;
             cout << "    misc" << endl;
             cout << "        help                                 [displays this message]" << endl;
             cout << "        quit                                 [quits application]" << endl;
@@ -214,6 +218,10 @@ void Interface::mainMenu() {
         // list expenses
         else if (arguments[0] == "list" && arguments[1] == "expenses"){
             listExpenses();
+        }
+        // calculate savings <time (days, int)> <interest rate (%, double)> <current savings ($, double)>
+        else if (arguments[0] == "calculate" && arguments[1] == "savings"){
+            
         }
         // quit
         else if(arguments[0] == "quit") {
