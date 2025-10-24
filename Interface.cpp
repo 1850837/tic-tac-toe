@@ -291,6 +291,10 @@ void Interface::mainMenu() {
             cout << "    salary" << endl;
             cout << "        salary                               [Shows your current salary converted to per day]" << endl;
             cout << "        salary add                           [add a salary to this profile, adding a new salary will replace the old one]" << endl;
+            cout << endl;
+            cout << "    calculate" << endl;
+            cout << "        calculate savings <time (days, int)> <interest rate (%, double)> <current savings ($, double)>" << endl;
+            cout << "                                             [calculates the savings after <time>]" << endl;
             cout << "    misc" << endl;
             cout << "        help                                 [displays this message]" << endl;
             cout << "        quit                                 [quits application]" << endl;
@@ -302,6 +306,38 @@ void Interface::mainMenu() {
         // list expenses
         else if (arguments[0] == "list" && arguments[1] == "expenses"){
             listExpenses();
+        }
+        // calculate savings <time (days, int)> <interest rate (%, double)> <current savings ($, double)>
+        else if (arguments[0] == "calculate" && arguments[1] == "savings"){
+            if (arguments.size() < 5){
+                cout << "Please include all information!" << endl;
+            } else {
+                int time = stoi(arguments[2]);
+                double interest = stod(arguments[3]);
+                double savings = stod(arguments[4]);
+
+                // checking input vals
+                if (time < 0){
+                    cout << "Invalid time!" << endl;
+                } else if (interest < 0 || interest > 100){
+                    cout << "Invalid interest!" << endl;
+                } else if (savings < 0) {
+                    cout << "Invalid savings!" << endl;
+                } else {
+
+                    double totalExpenses = 0;
+                    vector<Expense> expense = getActiveProfile().getExpenses();
+                    for (int i = 0; i < expense.size(); i++){
+                        totalExpenses += expense[i].getExpenseCost();
+                    }
+
+                    for (int i = 0; i < time; i++){
+                        savings = savings + getActiveProfile().getDailySalary() - totalExpenses + (savings * interest);
+                    }
+
+                    cout << "After " << time << " days, you will have saved $" << savings << "!" << endl;
+                }
+            }
         }
         // quit
         else if(arguments[0] == "quit") {
