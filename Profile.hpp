@@ -21,7 +21,7 @@ class Profile {
 
         void addExpense(int expenseCost, string expenseNname, vector<string> expenseTags);
         void deleteExpense(string expenseName);
-
+        void addDailySalary(int dailySalary);
         string getName();
 
 };
